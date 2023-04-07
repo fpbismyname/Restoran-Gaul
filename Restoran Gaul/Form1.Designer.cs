@@ -63,6 +63,7 @@
             this.email.Name = "email";
             this.email.Size = new System.Drawing.Size(208, 28);
             this.email.TabIndex = 1;
+            this.email.Text = "Gombi@gmail.com";
             // 
             // label3
             // 
@@ -81,6 +82,7 @@
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(208, 28);
             this.password.TabIndex = 1;
+            this.password.Text = "Gombi321";
             // 
             // button1
             // 
@@ -107,7 +109,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login";
+            this.Text = "Gombi@gmail.com";
             this.ResumeLayout(false);
             this.PerformLayout();
 

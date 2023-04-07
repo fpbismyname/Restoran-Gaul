@@ -17,6 +17,7 @@ namespace Restoran_Gaul
         {
             string constring = "server= localhost; database= db_restoran; uid= root; pwd= Fajar12BuDiman;";
             MySqlConnection con = new MySqlConnection(constring);
+            con.Open();          
 
             if (email.Text.Length == 0 || password.Text.Length == 0)
             {
@@ -46,7 +47,7 @@ namespace Restoran_Gaul
                 }
                 catch (Exception ex)
                 {
-                    if (ex is Exception) 
+                    if (ex is Exception)
                     {
                         MessageBox.Show("Akun tidak ditemukan !", "Ops..");
                     }

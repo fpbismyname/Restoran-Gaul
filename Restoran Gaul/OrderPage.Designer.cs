@@ -110,6 +110,7 @@
             // 
             // list_menu
             // 
+            this.list_menu.Enabled = false;
             this.list_menu.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.list_menu.FormattingEnabled = true;
             this.list_menu.Location = new System.Drawing.Point(293, 429);
@@ -119,6 +120,7 @@
             // 
             // qty_style
             // 
+            this.qty_style.Enabled = false;
             this.qty_style.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.qty_style.Location = new System.Drawing.Point(293, 477);
             this.qty_style.Name = "qty_style";
@@ -138,6 +140,7 @@
             // 
             // add_order
             // 
+            this.add_order.Enabled = false;
             this.add_order.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.add_order.Location = new System.Drawing.Point(293, 529);
             this.add_order.Name = "add_order";
@@ -145,9 +148,11 @@
             this.add_order.TabIndex = 6;
             this.add_order.Text = "Add";
             this.add_order.UseVisualStyleBackColor = true;
+            this.add_order.Click += new System.EventHandler(this.add_order_Click);
             // 
             // delete_order
             // 
+            this.delete_order.Enabled = false;
             this.delete_order.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.delete_order.Location = new System.Drawing.Point(416, 529);
             this.delete_order.Name = "delete_order";
@@ -155,9 +160,11 @@
             this.delete_order.TabIndex = 6;
             this.delete_order.Text = "Delete";
             this.delete_order.UseVisualStyleBackColor = true;
+            this.delete_order.Click += new System.EventHandler(this.delete_order_Click);
             // 
             // order_menu
             // 
+            this.order_menu.Enabled = false;
             this.order_menu.Font = new System.Drawing.Font("Sitka Text", 18F);
             this.order_menu.Location = new System.Drawing.Point(639, 429);
             this.order_menu.Name = "order_menu";
@@ -212,9 +219,9 @@
             this.total_order.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.total_order.Location = new System.Drawing.Point(898, 534);
             this.total_order.Name = "total_order";
-            this.total_order.Size = new System.Drawing.Size(45, 23);
+            this.total_order.Size = new System.Drawing.Size(16, 23);
             this.total_order.TabIndex = 3;
-            this.total_order.Text = "total";
+            this.total_order.Text = "-";
             // 
             // total_carbo
             // 
@@ -222,9 +229,9 @@
             this.total_carbo.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.total_carbo.Location = new System.Drawing.Point(875, 482);
             this.total_carbo.Name = "total_carbo";
-            this.total_carbo.Size = new System.Drawing.Size(52, 23);
+            this.total_carbo.Size = new System.Drawing.Size(16, 23);
             this.total_carbo.TabIndex = 3;
-            this.total_carbo.Text = "carbo";
+            this.total_carbo.Text = "-";
             // 
             // total_protein
             // 
@@ -232,9 +239,9 @@
             this.total_protein.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.total_protein.Location = new System.Drawing.Point(887, 432);
             this.total_protein.Name = "total_protein";
-            this.total_protein.Size = new System.Drawing.Size(64, 23);
+            this.total_protein.Size = new System.Drawing.Size(16, 23);
             this.total_protein.TabIndex = 3;
-            this.total_protein.Text = "protein";
+            this.total_protein.Text = "-";
             // 
             // button1
             // 

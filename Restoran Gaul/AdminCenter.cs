@@ -14,7 +14,7 @@ namespace Restoran_Gaul
 
         private void orderPage_Click(object sender, EventArgs e)
         { 
-                this.Hide();
+            this.Hide();
             new OrderPage().Show();
         }
 
