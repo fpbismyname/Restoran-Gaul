@@ -1,7 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data;
-using System.Runtime.ExceptionServices;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Restoran_Gaul
@@ -12,50 +11,49 @@ namespace Restoran_Gaul
         {
             InitializeComponent();
         }
+        private void connect_to_db(string query)
+        {
+            string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+            try
+            {
+                SqlDataAdapter sda = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
 
+                if (dt.Rows[0][2].ToString() == "Admin")
+                {
+                    this.Hide();
+                    new AdminCenter().Show();
+                }
+                else if (dt.Rows[0][2].ToString() == "Kasir")
+                {
+                    this.Hide();
+                    new KasirCenter().Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex != null)
+                {
+                    MessageBox.Show("Maaf, Data tidak valid !", "Ops..");
+                }
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            string constring = "server= localhost; database= db_restoran; uid= root; pwd= Fajar12BuDiman;";
-            MySqlConnection con = new MySqlConnection(constring);
-            con.Open();          
-
-            if (email.Text.Length == 0 || password.Text.Length == 0)
+            if (email.Text == "" || password.Text == "")
             {
-                MessageBox.Show("Email dan password tidak boleh kosong !", "Ops..");
+                MessageBox.Show("Field tidak boleh kosong !", "Ops..");
             }
             else
             {
-
-                try
-                {
-                    string query = "select * from msemployee where Email = '" + email.Text + "' AND Password = '" + password.Text + "';";
-                    MySqlDataAdapter sda = new MySqlDataAdapter(query, con);
-                    //MySqlCommand cmd = new MySqlCommand(query, con);
-                    DataTable dtable = new DataTable();
-                    sda.Fill(dtable);
-                    //MySqlDataReader reader = cmd.ExecuteReader;
-                    if (dtable.Rows[0][5].ToString() == "Admin")
-                    {
-                        this.Hide();
-                        new AdminCenter().Show();
-                    }
-                    else if (dtable.Rows[0][5].ToString() == "Kasir")
-                    {
-                        this.Hide();
-                        new KasirCenter().Show();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (ex is Exception)
-                    {
-                        MessageBox.Show("Akun tidak ditemukan !", "Ops..");
-                    }
-                }
-                finally
-                {
-                    con.Close();
-                }
+                connect_to_db("select Email, Password, Position from MsEmployee where Email = '" + email.Text + "' AND Password = '" + password.Text + "';");
             }
         }
     }

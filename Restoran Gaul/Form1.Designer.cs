@@ -42,9 +42,9 @@
             this.label1.Font = new System.Drawing.Font("Golden Smile", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(204, 78);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(404, 67);
+            this.label1.Size = new System.Drawing.Size(390, 67);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Restoran Gaul";
+            this.label1.Text = "Restoran SMK";
             // 
             // label2
             // 
@@ -109,7 +109,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Gombi@gmail.com";
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 
