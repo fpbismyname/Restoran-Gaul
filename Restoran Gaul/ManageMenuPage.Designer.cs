@@ -49,7 +49,6 @@
             this.update_menu = new System.Windows.Forms.Button();
             this.Kembali = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.daftar_menu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -99,6 +98,7 @@
             this.menu_id.Name = "menu_id";
             this.menu_id.Size = new System.Drawing.Size(166, 28);
             this.menu_id.TabIndex = 1;
+            this.menu_id.TextChanged += new System.EventHandler(this.menu_id_TextChanged);
             // 
             // label2
             // 
@@ -145,6 +145,7 @@
             this.harga_menu.Name = "harga_menu";
             this.harga_menu.Size = new System.Drawing.Size(166, 28);
             this.harga_menu.TabIndex = 1;
+            this.harga_menu.TextChanged += new System.EventHandler(this.harga_menu_TextChanged);
             // 
             // label5
             // 
@@ -163,6 +164,7 @@
             this.photo_menu.Name = "photo_menu";
             this.photo_menu.Size = new System.Drawing.Size(166, 28);
             this.photo_menu.TabIndex = 1;
+
             // 
             // label6
             // 
@@ -181,6 +183,7 @@
             this.carbo_menu.Name = "carbo_menu";
             this.carbo_menu.Size = new System.Drawing.Size(166, 28);
             this.carbo_menu.TabIndex = 1;
+            this.carbo_menu.TextChanged += new System.EventHandler(this.carbo_menu_TextChanged);
             // 
             // label7
             // 
@@ -199,6 +202,7 @@
             this.protein_menu.Name = "protein_menu";
             this.protein_menu.Size = new System.Drawing.Size(166, 28);
             this.protein_menu.TabIndex = 1;
+            this.protein_menu.TextChanged += new System.EventHandler(this.protein_menu_TextChanged);
             // 
             // insert_menu
             // 
@@ -249,22 +253,12 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(500, 386);
+            this.pictureBox1.Location = new System.Drawing.Point(477, 376);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(112, 106);
+            this.pictureBox1.Size = new System.Drawing.Size(158, 147);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Sitka Text", 12F);
-            this.button1.Location = new System.Drawing.Point(299, 475);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(37, 28);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // ManageMenuPage
             // 
@@ -272,7 +266,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 618);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Kembali);
             this.Controls.Add(this.daftar_menu);
@@ -328,6 +321,5 @@
         private System.Windows.Forms.Button update_menu;
         private System.Windows.Forms.LinkLabel Kembali;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
     }
 }

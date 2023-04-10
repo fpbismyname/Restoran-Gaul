@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Restoran_Gaul
@@ -50,8 +53,8 @@ namespace Restoran_Gaul
             {
                 if (ex != null)
                 {
-                    //MessageBox.Show("Terjadi kesalahan internal !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Id tidak boleh sama !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(ex.Message);
                 }
             }
             finally
@@ -69,18 +72,15 @@ namespace Restoran_Gaul
         {
             con_to_db("select * from MsMenu where Name Like '%" + cari_menu.Text + "%';", daftar_menu);
         }
-
         private void insert_menu_Click(object sender, EventArgs e)
         {
-            //img logic
-            Image img = pictureBox1.Image;
-            byte[] arr;
-            ImageConverter converter = new ImageConverter();
-            arr = (byte[])converter.ConvertTo(img, typeof(byte[]));
-
-
-
-            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "")
+            int id = Convert.ToInt32(menu_id.Text);
+            string name = nama_menu.Text;
+            string photo = photo_menu.Text;
+            int price = Convert.ToInt32(harga_menu.Text);
+            int carbo = Convert.ToInt32(carbo_menu.Text);
+            int protein = Convert.ToInt32(protein_menu.Text);
+            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "" || photo_menu.Text == "")
             {
                 MessageBox.Show("Field tidak boleh kosong !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 con_to_db("select * from MsMenu", daftar_menu);
@@ -90,7 +90,7 @@ namespace Restoran_Gaul
                 DialogResult msg = MessageBox.Show("Apakah anda yakin melakukan Insert ?", "Perhatian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (msg == DialogResult.Yes)
                 {
-                    sen_to_db("insert into MsMenu(Id, Name, Price, Carbo, Protein, Photo) Values('" + menu_id.Text + "','" + nama_menu.Text + "'," + harga_menu.Text + "," + carbo_menu.Text + "," + protein_menu.Text + ","+arr+");");
+                    sen_to_db("insert into MsMenu(Id, Name, Price, Carbo, Protein, Photo) Values("+id+",'"+name+"',"+price+","+carbo+","+protein+",'"+photo+"')");
                     menu_id.Clear();
                     nama_menu.Clear();
                     harga_menu.Clear();
@@ -111,7 +111,6 @@ namespace Restoran_Gaul
         private void ManageMenuPage_Load(object sender, EventArgs e)
         {
             con_to_db("select * from Msmenu;", daftar_menu);
-            photo_menu.ReadOnly = true;
         }
 
         private void daftar_menu_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -126,6 +125,7 @@ namespace Restoran_Gaul
                     harga_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Price"].FormattedValue.ToString();
                     carbo_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Carbo"].FormattedValue.ToString();
                     protein_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Protein"].FormattedValue.ToString();
+                    photo_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Photo"].FormattedValue.ToString();
                 }
             }
             catch (Exception ex)
@@ -139,7 +139,13 @@ namespace Restoran_Gaul
 
         private void update_menu_Click(object sender, EventArgs e)
         {
-            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "")
+            int id = Convert.ToInt32(menu_id.Text);
+            string name = nama_menu.Text;
+            string photo = photo_menu.Text;
+            int price = Convert.ToInt32(harga_menu.Text);
+            int carbo = Convert.ToInt32(carbo_menu.Text);
+            int protein = Convert.ToInt32(protein_menu.Text);
+            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "" || photo_menu.Text == "")
             {
                 MessageBox.Show("Field tidak boleh kosong !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 con_to_db("select * from MsMenu", daftar_menu);
@@ -149,7 +155,7 @@ namespace Restoran_Gaul
                 DialogResult msg = MessageBox.Show("Apakah anda yakin melakukan Update?", "Perhatian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (msg == DialogResult.Yes)
                 {
-                    sen_to_db("Update MsMenu Set Name = '" + nama_menu.Text + "', Price = " + harga_menu.Text + ", Carbo = " + carbo_menu.Text + ", Protein = " + protein_menu.Text + " where Id = " + menu_id.Text + "");
+                    sen_to_db("Update MsMenu Set Name = '" + name+ "', Price = " + price+ ", Carbo = " + carbo+ ", Protein = " + protein + " , Photo = '"+photo+"' where Id = " + id + "");
                     menu_id.Clear();
                     nama_menu.Clear();
                     harga_menu.Clear();
@@ -164,7 +170,14 @@ namespace Restoran_Gaul
 
         private void delete_menu_Click(object sender, EventArgs e)
         {
-            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "")
+            int id = Convert.ToInt32(menu_id.Text);
+            string name = nama_menu.Text;
+            string photo = photo_menu.Text;
+            int price = Convert.ToInt32(harga_menu.Text);
+            int carbo = Convert.ToInt32(carbo_menu.Text);
+            int protein = Convert.ToInt32(protein_menu.Text);
+
+            if (menu_id.Text == "" || nama_menu.Text == "" || harga_menu.Text == "" || carbo_menu.Text == "" || protein_menu.Text == "" || photo_menu.Text == "")
             {
                 MessageBox.Show("Field tidak boleh kosong !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 con_to_db("select * from MsMenu", daftar_menu);
@@ -174,7 +187,7 @@ namespace Restoran_Gaul
                 DialogResult msg = MessageBox.Show("Apakah anda yakin melakukan Update?", "Perhatian", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (msg == DialogResult.Yes)
                 {
-                    sen_to_db("Delete from MsMenu where Name = '" + nama_menu.Text + "'And Price = " + harga_menu.Text + "And Carbo = " + carbo_menu.Text + "And Protein = " + protein_menu.Text + " And Id = " + menu_id.Text + ";");
+                    sen_to_db("Delete from MsMenu where Id = "+ id +" AND Name = '" + name + "'And Price = " + price + "And Carbo = " + carbo + "And Protein = " + protein + " And Photo = '"+photo+"';");
                     menu_id.Clear();
                     nama_menu.Clear();
                     harga_menu.Clear();
@@ -186,15 +199,35 @@ namespace Restoran_Gaul
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void menu_id_TextChanged(object sender, EventArgs e)
         {
-            using(OpenFileDialog ofd = new OpenFileDialog())
+            if (System.Text.RegularExpressions.Regex.IsMatch(menu_id.Text, "[^0-9]"))
             {
-                if(ofd.ShowDialog() == DialogResult.OK)
-                {
+                menu_id.Text = menu_id.Text.Remove(menu_id.Text.Length - 1);
+            }
+        }
 
-                    pictureBox1.Image = Image.FromFile(ofd.FileName);
-                }
+        private void harga_menu_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(harga_menu.Text, "[^0-9]"))
+            {
+                harga_menu.Text = harga_menu.Text.Remove(harga_menu.Text.Length - 1);
+            }
+        }
+
+        private void carbo_menu_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(carbo_menu.Text, "[^0-9]"))
+            {
+                carbo_menu.Text = carbo_menu.Text.Remove(carbo_menu.Text.Length - 1);
+            }
+        }
+
+        private void protein_menu_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(protein_menu.Text, "[^0-9]"))
+            {
+                protein_menu.Text = protein_menu.Text.Remove(protein_menu.Text.Length - 1);
             }
         }
     }

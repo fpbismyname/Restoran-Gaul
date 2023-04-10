@@ -1,8 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Restoran_Gaul
@@ -13,153 +11,84 @@ namespace Restoran_Gaul
         {
             InitializeComponent();
         }
-
+        public void con_to_db(string query, DataGridView table)
+        {
+            string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+            try
+            {
+                SqlDataAdapter sda = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                table.DataSource = dt;
+                table.ReadOnly = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
         private void OrderPage_Load(object sender, EventArgs e)
         {
-
+            con_to_db("select * from MsMenu;", list_menu);
+            list_siap_order.Columns.Add(Name = "menu", "Menu");
+            list_siap_order.Columns.Add(Name = "qty", "Qty");
+            list_siap_order.Columns.Add(Name = "carbo", "Carbo");
+            list_siap_order.Columns.Add(Name = "protein", "Protein");
+            list_siap_order.Columns.Add(Name = "price", "Price");
+            list_siap_order.Columns.Add(Name = "Total", "Total");
+            list_siap_order.ReadOnly = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
             new AdminCenter().Show();
         }
 
-        private void refresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void list_menu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string constring = "server= localhost; database= db_restoran; uid= root; pwd = Fajar12BuDiman;";
-            MySqlConnection con = new MySqlConnection(constring);
-            string menu = "select Name, Price, Carbo, Protein from msmenu;";
+            if (list_menu.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            {
+                list_menu.CurrentRow.Selected = true;
+                nama_menu.Text = list_menu.Rows[e.RowIndex].Cells["Name"].FormattedValue.ToString();
+            }
+        }
+
+        private void tambah_order_Click(object sender, EventArgs e)
+        {
+            string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constring);
             con.Open();
-            MySqlDataAdapter sda = new MySqlDataAdapter(menu, con);
-            DataTable dtable = new DataTable();
-            sda.Fill(dtable);
-            //read = sda.Fill(dtable);
-            daftar_menu.DataSource = dtable;
-            daftar_menu.ReadOnly = true;
-
-
-            string list = "select Name from msmenu;";
-            MySqlCommand cmd = new MySqlCommand(list, con);
-            MySqlDataReader read;
-            read = cmd.ExecuteReader();
-
-            while (read.Read())
+            try
             {
-                list_menu.DropDownStyle = ComboBoxStyle.DropDownList;
-                list_menu.Items.Add(read.GetString(0));
-                list_menu.SelectedItem = read.GetString(0);
+                SqlCommand cmd = new SqlCommand("select Name, Price, Protein, Carbo from MsMenu where Name = '" + nama_menu.Text + "'", con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    int qty = Convert.ToInt32(jumlah_menu.Text);
+                    int total = reader.GetInt32(1) * qty;
+                    list_siap_order.Rows.Add(reader.GetString(0), jumlah_menu.Text, reader.GetInt32(3), reader.GetInt32(2), reader.GetInt32(1), total);
+                }
             }
-            list_menu.Enabled = true;
-            qty_style.Enabled = true;
-            add_order.Enabled = true;
-            daftar_siap_order.Columns.Add("menu", "Menu");
-            daftar_siap_order.Columns.Add("qty", "Qty");
-            daftar_siap_order.Columns.Add("carbo", "Carbo");
-            daftar_siap_order.Columns.Add("protein", "Protein");
-            daftar_siap_order.Columns.Add("price", "Price");
-            daftar_siap_order.Columns.Add("total", "Total");
-            con.Close();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (System.Text.RegularExpressions.Regex.IsMatch(qty_style.Text, "[^0-9]"))
+            catch (Exception ex)
             {
-                qty_style.Text = qty_style.Text.Remove(qty_style.Text.Length - 1);
+                MessageBox.Show(ex.Message, "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                con.Close();
             }
         }
 
-        private void add_order_Click(object sender, EventArgs e)
+        private void list_siap_order_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //to connect and read the data from database
-            string constring = "server= localhost; database= db_restoran; uid= root; pwd = Fajar12BuDiman;";
-            string menu = list_menu.SelectedItem.ToString();
-            string query = "select Name, Protein, Carbo, Price from msmenu where Name = '" + menu + "';";
-            MySqlConnection con = new MySqlConnection(constring);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand(query, con);
-            MySqlDataReader read = cmd.ExecuteReader();
-            read.Read();
 
-            //to make the table daftar order just read only
-            daftar_siap_order.ReadOnly = true;
-
-            //to handle error if qty not have some value
-            if (qty_style.Text == "")
-            {
-                MessageBox.Show("Qty tidak boleh kosong !", "Ops..");
-            }
-            else
-            {
-                //to activied delete button & order menu button
-                order_menu.Enabled = true;
-                delete_order.Enabled = true;
-
-                //variable to add menu
-                int qty = Convert.ToInt32(qty_style.Text);
-                int Protein = (int)read[1];
-                int Carbo = (int)read[2];
-                int Price = (int)read[3];
-                int Total = Price * qty;
-
-
-                //to execute the logic, and catch the error and change it
-                try
-                {
-                    //for add some order list
-                    daftar_siap_order.Rows.Add(new object[]
-                    {
-                    menu,
-                    qty,
-                    Protein,
-                    Carbo,
-                    Price,
-                    Total
-                    });
-
-                    //to show how much protein, carbo and price order
-                    decimal totalProtein = 0;
-                    decimal totalCarbo = 0;
-                    decimal totalOrder = 0;
-
-                    for (int i = 0; i < daftar_siap_order.Rows.Count; i++)
-                    {
-                        totalProtein += Convert.ToDecimal(daftar_siap_order.Rows[i].Cells["Protein"].Value);
-                    }
-                    for (int i = 0; i < daftar_siap_order.Rows.Count; i++)
-                    {
-                        totalCarbo += Convert.ToDecimal(daftar_siap_order.Rows[i].Cells["Carbo"].Value);
-                    }
-                    for (int i = 0; i < daftar_siap_order.Rows.Count;i++)
-                    {
-                        totalOrder += Convert.ToDecimal(daftar_siap_order.Rows[i].Cells["Total"].Value);
-                    }
-
-                    //for changing the total value
-                    total_carbo.Text = totalCarbo.ToString();
-                    total_order.Text = totalOrder.ToString();
-                    total_protein.Text = totalProtein.ToString();
-
-                }
-                catch (Exception ex)
-                {
-                    //MessageBox.Show(ex.Message);
-                    if (ex != null)
-                    {
-                        MessageBox.Show("Masukan Menu untuk melakukan order !", "Ops..");
-                    }
-                }
-                finally
-                {
-                    con.Close();
-                }
-            }
-        }
-
-        private void delete_order_Click(object sender, EventArgs e)
-        {
-            daftar_siap_order.Rows.Clear();
         }
     }
 }
