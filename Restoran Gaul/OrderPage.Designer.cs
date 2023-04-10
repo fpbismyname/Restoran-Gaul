@@ -105,6 +105,7 @@
             this.jumlah_menu.Name = "jumlah_menu";
             this.jumlah_menu.Size = new System.Drawing.Size(160, 28);
             this.jumlah_menu.TabIndex = 2;
+            this.jumlah_menu.TextChanged += new System.EventHandler(this.jumlah_menu_TextChanged);
             // 
             // pictureBox1
             // 
