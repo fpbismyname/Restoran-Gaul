@@ -164,7 +164,6 @@
             this.photo_menu.Name = "photo_menu";
             this.photo_menu.Size = new System.Drawing.Size(166, 28);
             this.photo_menu.TabIndex = 1;
-
             // 
             // label6
             // 

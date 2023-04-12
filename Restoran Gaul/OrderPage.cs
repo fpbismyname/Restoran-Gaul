@@ -54,11 +54,41 @@ namespace Restoran_Gaul
 
         private void list_menu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (list_menu.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            try
             {
-                list_menu.CurrentRow.Selected = true;
-                nama_menu.Text = list_menu.Rows[e.RowIndex].Cells["Name"].FormattedValue.ToString();
+                if (list_menu.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+                {
+                    list_menu.CurrentRow.Selected = true;
+                    nama_menu.Text = list_menu.Rows[e.RowIndex].Cells["Name"].FormattedValue.ToString();
+                }
             }
+            catch (Exception ex)
+            {
+                if (ex != null)
+                {
+                    MessageBox.Show("Judul tidak untuk dipilih !", "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+        public void counting_deliver()
+        {
+            int TotalCarbo = 0;
+            int TotalProtein = 0;
+            int qty = 0;
+            for (int i = 0; i < list_siap_order.Rows.Count; i++)
+            {
+                TotalCarbo += Convert.ToInt32(list_siap_order.Rows[i].Cells["Carbo"].Value);
+                TotalProtein += Convert.ToInt32(list_siap_order.Rows[i].Cells["Protein"].Value);
+                qty += Convert.ToInt32(list_siap_order.Rows[i].Cells["Qty"].Value);
+            }
+            int hasilProtein = TotalProtein * qty;
+            int hasilCarbo = TotalCarbo * qty;
+            int hasilMenu = int.Parse(list_siap_order.Rows[0].Cells["Total"].FormattedValue.ToString());
+
+            total_carbo.Text = Convert.ToString(hasilCarbo);
+            total_protein.Text = Convert.ToString(hasilProtein);
+            total_menu.Text = Convert.ToString(hasilMenu);
+
         }
         private void tambah_order_Click(object sender, EventArgs e)
         {
@@ -68,19 +98,50 @@ namespace Restoran_Gaul
             }
             else
             {
-                string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
-                SqlConnection con = new SqlConnection(constring);
-                con.Open();
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("select Name, Price, Protein, Carbo from MsMenu where Name = '" + nama_menu.Text + "'", con);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    if (list_siap_order.Rows[index:0].Cells["Menu"].FormattedValue.ToString() == nama_menu.Text)
                     {
-                        int qty = Convert.ToInt32(jumlah_menu.Text);
-                        int total = reader.GetInt32(1) * qty;
-                        list_siap_order.Rows.Add(reader.GetString(0), jumlah_menu.Text, reader.GetInt32(3), reader.GetInt32(2), reader.GetInt32(1), total);
+                        //Qty
+                        int after_qty = Convert.ToInt32(jumlah_menu.Text);
+                        int before_qty = Convert.ToInt32(list_siap_order.Rows[0].Cells["Qty"].FormattedValue.ToString());
+                        list_siap_order.Rows[0].Cells["Qty"].Value = after_qty + before_qty;
+
+                        //Total
+                        int after_total = Convert.ToInt32(list_siap_order.Rows[0].Cells["Price"].FormattedValue.ToString());
+                        int before_total = Convert.ToInt32(list_siap_order.Rows[0].Cells["Total"].FormattedValue.ToString());
+                        list_siap_order.Rows[0].Cells["Total"].Value = after_total + before_total;
                     }
+                    else if (list_siap_order.Rows[index:0].Cells["Menu"].FormattedValue.ToString() != nama_menu.Text)
+                    {
+                        string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
+                        SqlConnection con = new SqlConnection(constring);
+                        con.Open();
+                        try
+                        {
+                            SqlCommand cmd = new SqlCommand("select Name, Price, Carbo, Protein from MsMenu where Name = '" + nama_menu.Text + "'", con);
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            reader.Read();
+                            string namaMenu = reader.GetString(0);
+                            int Qty = Convert.ToInt32(jumlah_menu.Text);
+                            int Protein = reader.GetInt32(3);
+                            int Carbo = reader.GetInt32(2);
+                            int Price = reader.GetInt32(1);
+                            int Total = Qty * Price;
+
+                            list_siap_order.Rows.Add(namaMenu, Qty, Carbo, Protein, Price, Total);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        finally
+                        {
+                            con.Close();
+                        }
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -88,23 +149,7 @@ namespace Restoran_Gaul
                 }
                 finally
                 {
-                    con.Close();
-                }
-            }
-
-            int TotalMenu = 0;
-            int TotalCarbo = 0;
-            int TotalProtein = 0;
-            if (list_siap_order != null)
-            {
-                for (int i = 0; i < list_siap_order.Rows.Count; i++)
-                {
-                    int Menu = TotalMenu + int.Parse(list_siap_order.Rows[i].Cells["Price"].FormattedValue.ToString());
-                    int Carbo = TotalCarbo + int.Parse(list_siap_order.Rows[i].Cells["Carbo"].FormattedValue.ToString());
-                    int Protein = TotalProtein + int.Parse(list_siap_order.Rows[i].Cells["Protein"].FormattedValue.ToString());
-                    total_carbo.Text = Convert.ToString(Menu);
-                    total_protein.Text = Convert.ToString(Carbo);
-                    total_menu.Text = Convert.ToString(Protein);
+                    counting_deliver();
                 }
             }
         }
