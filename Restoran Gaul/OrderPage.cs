@@ -60,6 +60,7 @@ namespace Restoran_Gaul
                 {
                     list_menu.CurrentRow.Selected = true;
                     nama_menu.Text = list_menu.Rows[e.RowIndex].Cells["Name"].FormattedValue.ToString();
+                    jumlah_menu.Text = "1";
                 }
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace Restoran_Gaul
                 }
             }
         }
-        public void counting_deliver()
+        public void counting_deliver(int row)
         {
             int TotalCarbo = 0;
             int TotalProtein = 0;
@@ -83,12 +84,10 @@ namespace Restoran_Gaul
             }
             int hasilProtein = TotalProtein * qty;
             int hasilCarbo = TotalCarbo * qty;
-            int hasilMenu = int.Parse(list_siap_order.Rows[0].Cells["Total"].FormattedValue.ToString());
-
+            int hasilMenu = int.Parse(list_siap_order.Rows[row].Cells["Total"].FormattedValue.ToString());
             total_carbo.Text = Convert.ToString(hasilCarbo);
             total_protein.Text = Convert.ToString(hasilProtein);
             total_menu.Text = Convert.ToString(hasilMenu);
-
         }
         private void tambah_order_Click(object sender, EventArgs e)
         {
@@ -100,56 +99,35 @@ namespace Restoran_Gaul
             {
                 try
                 {
-                    if (list_siap_order.Rows[index:0].Cells["Menu"].FormattedValue.ToString() == nama_menu.Text)
+                    string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
+                    SqlConnection con = new SqlConnection(constring);
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("select Name, Price, Carbo, Protein from MsMenu where Name = '" + nama_menu.Text + "' ;", con);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        //Qty
-                        int after_qty = Convert.ToInt32(jumlah_menu.Text);
-                        int before_qty = Convert.ToInt32(list_siap_order.Rows[0].Cells["Qty"].FormattedValue.ToString());
-                        list_siap_order.Rows[0].Cells["Qty"].Value = after_qty + before_qty;
-
-                        //Total
-                        int after_total = Convert.ToInt32(list_siap_order.Rows[0].Cells["Price"].FormattedValue.ToString());
-                        int before_total = Convert.ToInt32(list_siap_order.Rows[0].Cells["Total"].FormattedValue.ToString());
-                        list_siap_order.Rows[0].Cells["Total"].Value = after_total + before_total;
-                    }
-                    else if (list_siap_order.Rows[index:0].Cells["Menu"].FormattedValue.ToString() != nama_menu.Text)
-                    {
-                        string constring = "Data Source=localhost;Initial Catalog=db_restoran_smk;Integrated Security=True";
-                        SqlConnection con = new SqlConnection(constring);
-                        con.Open();
-                        try
+                        string NameMenu = reader.GetString(0);
+                        string Qty = jumlah_menu.Text;
+                        int Price = reader.GetInt32(1);
+                        int Carbo = reader.GetInt32(2);
+                        int Protein = reader.GetInt32(3);
+                        int Rows = list_siap_order.Rows.Count;
+                        if (Rows < list_menu.Rows.Count)
                         {
-                            SqlCommand cmd = new SqlCommand("select Name, Price, Carbo, Protein from MsMenu where Name = '" + nama_menu.Text + "'", con);
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            reader.Read();
-                            string namaMenu = reader.GetString(0);
-                            int Qty = Convert.ToInt32(jumlah_menu.Text);
-                            int Protein = reader.GetInt32(3);
-                            int Carbo = reader.GetInt32(2);
-                            int Price = reader.GetInt32(1);
-                            int Total = Qty * Price;
-
-                            list_siap_order.Rows.Add(namaMenu, Qty, Carbo, Protein, Price, Total);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                        finally
-                        {
-                            con.Close();
+                            if (list_siap_order.Rows[Rows].Cells["Menu"].Value == nama_menu.Text)
+                            {
+                                list_siap_order.Rows.Add(NameMenu, Qty, Price, Carbo, Protein);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Kontol");
+                            }
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    counting_deliver();
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -161,7 +139,7 @@ namespace Restoran_Gaul
 
         private void jumlah_menu_TextChanged(object sender, EventArgs e)
         {
-            if (Regex.IsMatch(jumlah_menu.Text, "[^0-9]"))
+            if (Regex.IsMatch(jumlah_menu.Text, "[^1-9]"))
             {
                 jumlah_menu.Text = jumlah_menu.Text.Remove(jumlah_menu.Text.Length - 1);
             }
