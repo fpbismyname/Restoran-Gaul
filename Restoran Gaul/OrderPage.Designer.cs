@@ -34,7 +34,7 @@
             this.nama_menu = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.jumlah_menu = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.view_order = new System.Windows.Forms.PictureBox();
             this.list_siap_order = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,7 +47,7 @@
             this.order_menu = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.list_menu)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_order)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.list_siap_order)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,13 +58,13 @@
             this.list_menu.Name = "list_menu";
             this.list_menu.Size = new System.Drawing.Size(776, 186);
             this.list_menu.TabIndex = 0;
-            this.list_menu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.list_menu_CellContentClick);
+            this.list_menu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.list_menu_CellContentClick);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Golden Smile", 28F);
-            this.label1.Location = new System.Drawing.Point(271, 9);
+            this.label1.Location = new System.Drawing.Point(3, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(257, 53);
             this.label1.TabIndex = 1;
@@ -107,13 +107,14 @@
             this.jumlah_menu.TabIndex = 2;
             this.jumlah_menu.TextChanged += new System.EventHandler(this.jumlah_menu_TextChanged);
             // 
-            // pictureBox1
+            // view_order
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(156, 325);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(131, 122);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.view_order.Location = new System.Drawing.Point(156, 325);
+            this.view_order.Name = "view_order";
+            this.view_order.Size = new System.Drawing.Size(131, 122);
+            this.view_order.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.view_order.TabIndex = 3;
+            this.view_order.TabStop = false;
             // 
             // list_siap_order
             // 
@@ -174,6 +175,7 @@
             this.hapus_order.TabIndex = 4;
             this.hapus_order.Text = "Delete";
             this.hapus_order.UseVisualStyleBackColor = true;
+            this.hapus_order.Click += new System.EventHandler(this.hapus_order_Click);
             // 
             // total_carbo
             // 
@@ -214,6 +216,7 @@
             this.order_menu.TabIndex = 4;
             this.order_menu.Text = "Order";
             this.order_menu.UseVisualStyleBackColor = true;
+            this.order_menu.Click += new System.EventHandler(this.order_menu_Click);
             // 
             // linkLabel1
             // 
@@ -221,7 +224,7 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.linkLabel1.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel1.Location = new System.Drawing.Point(355, 62);
+            this.linkLabel1.Location = new System.Drawing.Point(8, 62);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(71, 23);
             this.linkLabel1.TabIndex = 5;
@@ -234,12 +237,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(800, 729);
+            this.ClientSize = new System.Drawing.Size(801, 729);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.hapus_order);
             this.Controls.Add(this.order_menu);
             this.Controls.Add(this.tambah_order);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.view_order);
             this.Controls.Add(this.jumlah_menu);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.nama_menu);
@@ -258,7 +261,7 @@
             this.Text = "OrderPage";
             this.Load += new System.EventHandler(this.OrderPage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.list_menu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_order)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.list_siap_order)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -273,7 +276,7 @@
         private System.Windows.Forms.TextBox nama_menu;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox jumlah_menu;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox view_order;
         private System.Windows.Forms.DataGridView list_siap_order;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;

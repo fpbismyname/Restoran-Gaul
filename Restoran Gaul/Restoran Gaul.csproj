@@ -70,6 +70,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,6 +88,7 @@
     <Compile Include="AdminCenter.Designer.cs">
       <DependentUpon>AdminCenter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Connect_to_db.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +100,12 @@
     </Compile>
     <Compile Include="KasirCenter.Designer.cs">
       <DependentUpon>KasirCenter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Paymentpage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Paymentpage.Designer.cs">
+      <DependentUpon>Paymentpage.cs</DependentUpon>
     </Compile>
     <Compile Include="ManageMemberPage.cs">
       <SubType>Form</SubType>
@@ -119,6 +127,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportPage.Designer.cs">
+      <DependentUpon>ReportPage.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdminCenter.resx">
       <DependentUpon>AdminCenter.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KasirCenter.resx">
       <DependentUpon>KasirCenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Paymentpage.resx">
+      <DependentUpon>Paymentpage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageMemberPage.resx">
       <DependentUpon>ManageMemberPage.cs</DependentUpon>
@@ -146,6 +163,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ReportPage.resx">
+      <DependentUpon>ReportPage.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

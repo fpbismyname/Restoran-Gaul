@@ -10,23 +10,17 @@ using System.Windows.Forms;
 
 namespace Restoran_Gaul
 {
-    public partial class KasirCenter : Form
+    public partial class PaymentPage : Form
     {
-        public KasirCenter()
+        public PaymentPage()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void kembali_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
-            new Login().Show();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            new PaymentPage().Show();
+            new KasirCenter().Show();
         }
     }
 }

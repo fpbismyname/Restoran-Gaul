@@ -80,6 +80,7 @@
             this.password.Font = new System.Drawing.Font("Sitka Text", 12F);
             this.password.Location = new System.Drawing.Point(325, 231);
             this.password.Name = "password";
+            this.password.PasswordChar = '*';
             this.password.Size = new System.Drawing.Size(208, 28);
             this.password.TabIndex = 1;
             this.password.Text = "Gombi321";

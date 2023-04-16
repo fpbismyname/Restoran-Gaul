@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Restoran_Gaul
 {
@@ -34,6 +36,12 @@ namespace Restoran_Gaul
         {
             this.Hide();
             new Login().Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new ReportPage().Show();
         }
     }
 }

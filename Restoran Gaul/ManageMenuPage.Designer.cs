@@ -48,9 +48,10 @@
             this.delete_menu = new System.Windows.Forms.Button();
             this.update_menu = new System.Windows.Forms.Button();
             this.Kembali = new System.Windows.Forms.LinkLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.view_menu = new System.Windows.Forms.PictureBox();
+            this.upload_photo_menu = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.daftar_menu)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_menu)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -89,7 +90,7 @@
             this.daftar_menu.Name = "daftar_menu";
             this.daftar_menu.Size = new System.Drawing.Size(775, 246);
             this.daftar_menu.TabIndex = 3;
-            this.daftar_menu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.daftar_menu_CellContentClick);
+            this.daftar_menu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.daftar_menu_CellContentClick);
             // 
             // menu_id
             // 
@@ -250,14 +251,25 @@
             this.Kembali.Text = "Kembali";
             this.Kembali.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Kembali_LinkClicked);
             // 
-            // pictureBox1
+            // view_menu
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(477, 376);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(158, 147);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.view_menu.Location = new System.Drawing.Point(477, 376);
+            this.view_menu.Name = "view_menu";
+            this.view_menu.Size = new System.Drawing.Size(158, 147);
+            this.view_menu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.view_menu.TabIndex = 5;
+            this.view_menu.TabStop = false;
+            // 
+            // upload_photo_menu
+            // 
+            this.upload_photo_menu.Font = new System.Drawing.Font("Sitka Text", 12F);
+            this.upload_photo_menu.Location = new System.Drawing.Point(299, 475);
+            this.upload_photo_menu.Name = "upload_photo_menu";
+            this.upload_photo_menu.Size = new System.Drawing.Size(40, 28);
+            this.upload_photo_menu.TabIndex = 6;
+            this.upload_photo_menu.Text = "...";
+            this.upload_photo_menu.UseVisualStyleBackColor = true;
+            this.upload_photo_menu.Click += new System.EventHandler(this.upload_photo_menu_Click);
             // 
             // ManageMenuPage
             // 
@@ -265,7 +277,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 618);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.upload_photo_menu);
+            this.Controls.Add(this.view_menu);
             this.Controls.Add(this.Kembali);
             this.Controls.Add(this.daftar_menu);
             this.Controls.Add(this.update_menu);
@@ -291,7 +304,7 @@
             this.Text = "Form Manage Menu";
             this.Load += new System.EventHandler(this.ManageMenuPage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.daftar_menu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.view_menu)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,6 +332,7 @@
         private System.Windows.Forms.Button delete_menu;
         private System.Windows.Forms.Button update_menu;
         private System.Windows.Forms.LinkLabel Kembali;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox view_menu;
+        private System.Windows.Forms.Button upload_photo_menu;
     }
 }

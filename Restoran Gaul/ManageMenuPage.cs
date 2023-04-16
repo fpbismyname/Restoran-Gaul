@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mysqlx.Crud;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -111,6 +112,9 @@ namespace Restoran_Gaul
         private void ManageMenuPage_Load(object sender, EventArgs e)
         {
             con_to_db("select * from Msmenu;", daftar_menu);
+            daftar_menu.Columns["Photo"].Visible = false;
+            daftar_menu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            photo_menu.ReadOnly = true;
         }
 
         private void daftar_menu_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -126,6 +130,7 @@ namespace Restoran_Gaul
                     carbo_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Carbo"].FormattedValue.ToString();
                     protein_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Protein"].FormattedValue.ToString();
                     photo_menu.Text = daftar_menu.Rows[e.RowIndex].Cells["Photo"].FormattedValue.ToString();
+                    view_menu.ImageLocation = daftar_menu.Rows[e.RowIndex].Cells["Photo"].FormattedValue.ToString();
                 }
             }
             catch (Exception ex)
@@ -228,6 +233,19 @@ namespace Restoran_Gaul
             if (System.Text.RegularExpressions.Regex.IsMatch(protein_menu.Text, "[^0-9]"))
             {
                 protein_menu.Text = protein_menu.Text.Remove(protein_menu.Text.Length - 1);
+            }
+        }
+
+        private void upload_photo_menu_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Image files|*.jpg;*.jpeg;*.png";
+            ofd.Multiselect = false;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                view_menu.Image = Image.FromFile(ofd.FileName);
+                photo_menu.Text = ofd.FileName;
             }
         }
     }
